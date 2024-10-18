@@ -20,9 +20,9 @@
     remote_src: yes
   become: true
 
-- name: Create symlink for unpigz
+- name: Create hardlink for unpigz
   file:
     src: /usr/local/bin/pigz
     dest: /usr/local/bin/unpigz
-    state: link
+    state: hard
   become: true
