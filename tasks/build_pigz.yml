@@ -7,7 +7,7 @@
   become: true
 
 - name: Build Pigz
-  shell: make
+  shell: nice -n1 make
   args:
     chdir: "{{ src_dir }}/pigz"
   become: true

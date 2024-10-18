@@ -8,9 +8,9 @@
 
 - name: Build and install OpenSSL
   shell: |
-    ./config
-    make -j$(nproc)
-    make install_sw
+    nice -n1 ./config
+    nice -n1 make -j$(nproc)
+    nice -n1 make install_sw
   args:
     chdir: "{{ src_dir }}/{{ openssl_version }}"
   become: true

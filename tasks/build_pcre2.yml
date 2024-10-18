@@ -8,9 +8,9 @@
 
 - name: Build and install PCRE2
   shell: |
-    ./configure
-    make -j$(nproc)
-    make install
+    nice -n1 ./configure
+    nice -n1 make -j$(nproc)
+    nice -n1 make install
   args:
     chdir: "{{ src_dir }}/{{ pcre2_version }}"
   become: true
