@@ -1,19 +1,19 @@
 worker_processes auto;
 events {
-    worker_connections 1024;
+	worker_connections 1024;
 }
 http {
-    include       mime.types;
-    default_type  application/octet-stream;
-    sendfile        on;
-    keepalive_timeout 65;
-    gzip on;
-    gzip_vary on;
-    gzip_min_length 1024;
-    gzip_proxied expired no-cache no-store private auth;
-    gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml;
-    gzip_disable "MSIE [1-6]\.";
-    access_log  /var/log/nginx/access.log;
-    error_log   /var/log/nginx/error.log;
-    include conf.d/*.conf;
+	include	mime.types;
+	default_type  application/octet-stream;
+	sendfile	on;
+	keepalive_timeout 65;
+	gzip	on;
+	gzip_vary	on;
+	gzip_min_length	1024;
+	gzip_proxied expired no-cache no-store private auth;
+	gzip_types	application/atom+xml application/geo+json application/javascript application/x-javascript application/json application/ld+json application/manifest+json application/rdf+xml application/rss+xml application/vnd.ms-fontobject application/wasm application/x-web-app-manifest+json application/xhtml+xml application/xml font/eot font/otf font/ttf image/bmp image/svg+xml image/vnd.microsoft.icon image/x-icon text/cache-manifest text/calendar text/css text/javascript text/markdown text/plain text/xml text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
+	gzip_disable "MSIE [1-6]\.";
+	access_log	/var/log/nginx/access.log;
+	error_log	/var/log/nginx/error.log;
+	include conf.d/*.conf;
 }
