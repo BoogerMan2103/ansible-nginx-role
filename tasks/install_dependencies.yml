@@ -1,0 +1,15 @@
+# tasks/install_dependencies.yml
+- name: Install build tools and dependencies
+  apt:
+    name:
+      - binutils
+      - build-essential
+      - gcc
+      - make
+      - curl
+      - git
+      - libssl-dev
+      - libpcre2-dev
+      - zlib1g-dev
+    state: present
+  become: true

@@ -1,0 +1,33 @@
+# tasks/build_pigz.yml
+- name: Download Pigz source
+  get_url:
+    url: "https://zlib.net/pigz/pigz.tar.gz"
+    dest: "{{ src_dir }}/pigz.tar.gz"
+  become: true
+
+- name: Extract Pigz source
+  unarchive:
+    src: "{{ src_dir }}/pigz.tar.gz"
+    dest: "{{ src_dir }}"
+    remote_src: yes
+  become: true
+
+- name: Build Pigz
+  shell: make
+  args:
+    chdir: "{{ src_dir }}/pigz"
+  become: true
+
+- name: Install Pigz binaries
+  copy:
+    src: "{{ src_dir }}/pigz/pigz"
+    dest: /usr/local/bin/pigz
+    mode: '0755'
+  become: true
+
+- name: Create symlink for unpigz
+  file:
+    src: /usr/local/bin/pigz
+    dest: /usr/local/bin/unpigz
+    state: link
+  become: true

@@ -1,0 +1,22 @@
+# tasks/build_openssl.yml
+- name: Download OpenSSL source
+  get_url:
+    url: "https://www.openssl.org/source/{{ openssl_version }}.tar.gz"
+    dest: "{{ src_dir }}/{{ openssl_version }}.tar.gz"
+  become: true
+
+- name: Extract OpenSSL source
+  unarchive:
+    src: "{{ src_dir }}/{{ openssl_version }}.tar.gz"
+    dest: "{{ src_dir }}"
+    remote_src: yes
+  become: true
+
+- name: Build and install OpenSSL
+  shell: |
+    ./config
+    make -j$(nproc)
+    make install_sw
+  args:
+    chdir: "{{ src_dir }}/{{ openssl_version }}"
+  become: true

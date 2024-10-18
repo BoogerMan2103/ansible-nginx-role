@@ -1,0 +1,15 @@
+# meta/main.yml
+galaxy_info:
+  author: boogerman2103
+  description: Install Nginx from source with custom modules and configurations.
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+        - bookworm
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble

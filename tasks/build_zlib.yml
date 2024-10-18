@@ -1,0 +1,22 @@
+# tasks/build_zlib.yml
+- name: Download Zlib source
+  get_url:
+    url: "https://www.zlib.net/{{ zlib_version }}.tar.gz"
+    dest: "{{ src_dir }}/{{ zlib_version }}.tar.gz"
+  become: true
+
+- name: Extract Zlib source
+  unarchive:
+    src: "{{ src_dir }}/{{ zlib_version }}.tar.gz"
+    dest: "{{ src_dir }}"
+    remote_src: yes
+  become: true
+
+- name: Build and install Zlib
+  shell: |
+    ./configure
+    make -j$(nproc)
+    make install
+  args:
+    chdir: "{{ src_dir }}/{{ zlib_version }}"
+  become: true

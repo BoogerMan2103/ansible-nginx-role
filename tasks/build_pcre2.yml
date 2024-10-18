@@ -1,0 +1,22 @@
+# tasks/build_pcre2.yml
+- name: Download PCRE2 source
+  get_url:
+    url: "https://github.com/PCRE2Project/pcre2/releases/download/{{ pcre2_version }}/{{ pcre2_version }}.tar.gz"
+    dest: "{{ src_dir }}/{{ pcre2_version }}.tar.gz"
+  become: true
+
+- name: Extract PCRE2 source
+  unarchive:
+    src: "{{ src_dir }}/{{ pcre2_version }}.tar.gz"
+    dest: "{{ src_dir }}"
+    remote_src: yes
+  become: true
+
+- name: Build and install PCRE2
+  shell: |
+    ./configure
+    make -j$(nproc)
+    make install
+  args:
+    chdir: "{{ src_dir }}/{{ pcre2_version }}"
+  become: true

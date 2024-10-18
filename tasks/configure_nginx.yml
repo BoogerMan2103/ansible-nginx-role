@@ -1,0 +1,90 @@
+# tasks/configure_nginx.yml
+- name: Create Nginx user and group
+  group:
+    name: nginx
+    system: yes
+  become: true
+
+- name: Create Nginx user
+  user:
+    name: nginx
+    system: yes
+    group: nginx
+    shell: /sbin/nologin
+    home: /var/cache/nginx
+  become: true
+
+- name: Create cache directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: '0755'
+  loop:
+    - /var/cache/nginx/client_temp
+    - /var/cache/nginx/proxy_temp
+    - /var/cache/nginx/fastcgi_temp
+    - /var/cache/nginx/uwsgi_temp
+    - /var/cache/nginx/scgi_temp
+  become: true
+
+- name: Backup existing /etc/nginx if it exists
+  shell: cp -r /etc/nginx /etc/nginx-$(date +%Y-%m-%d)
+  args:
+    executable: /bin/bash
+  when: ansible_stat.exists
+  vars:
+    ansible_stat: "{{ lookup('ansible.builtin.stat', '/etc/nginx') }}"
+  become: true
+
+- name: Ensure /etc/nginx exists
+  file:
+    path: /etc/nginx
+    state: directory
+  become: true
+
+- name: Ensure /etc/nginx/conf.d exists
+  file:
+    path: /etc/nginx/conf.d
+    state: directory
+  become: true
+
+- name: Deploy nginx.conf
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+  become: true
+
+- name: Deploy default server configuration
+  template:
+    src: default_server.conf.j2
+    dest: /etc/nginx/conf.d/default_server.conf
+  become: true
+
+- name: Create web root directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - /var/www/html
+    - /var/www/html/.well-known
+  become: true
+
+- name: Deploy systemd service file for Nginx
+  template:
+    src: nginx.service.j2
+    dest: /etc/systemd/system/nginx.service
+  become: true
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+  become: true
+
+- name: Enable and start Nginx service
+  systemd:
+    name: nginx
+    enabled: yes
+    state: restarted
+  become: true
