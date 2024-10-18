@@ -1,13 +1,7 @@
 # tasks/build_nginx.yml
-- name: Download Nginx source
-  get_url:
-    url: "https://nginx.org/download/{{ nginx_version }}.tar.gz"
-    dest: "{{ src_dir }}/{{ nginx_version }}.tar.gz"
-  become: true
-
 - name: Extract Nginx source
   unarchive:
-    src: "{{ src_dir }}/{{ nginx_version }}.tar.gz"
+    src: "https://nginx.org/download/{{ nginx_version }}.tar.gz"
     dest: "{{ src_dir }}"
     remote_src: yes
   become: true
@@ -22,6 +16,22 @@
   set_fact:
     ec_flag: "enable-ec_nistp_64_gcc_128"
   when: gcc_supports_int128.rc == 0
+
+- name: Create Nginx user and group
+  group:
+    name: nginx
+    system: yes
+  become: true
+
+- name: Create Nginx user
+  user:
+    name: nginx
+    system: yes
+    group: nginx
+    shell: /sbin/nologin
+    home: /var/cache/nginx
+  become: true
+
 
 - name: Configure and build Nginx
   shell: |
@@ -76,4 +86,33 @@
   args:
     chdir: "{{ src_dir }}/{{ nginx_version }}"
     executable: /bin/bash
+  become: true
+
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: '0755'
+  loop:
+    - /var/cache/nginx/client_temp
+    - /var/cache/nginx/proxy_temp
+    - /var/cache/nginx/fastcgi_temp
+    - /var/cache/nginx/uwsgi_temp
+    - /var/cache/nginx/scgi_temp
+    - /var/www/html
+    - /var/www/html/.well-known
+  become: true
+
+- name: Ensure /etc/nginx exists
+  file:
+    path: /etc/nginx
+    state: directory
+  become: true
+
+- name: Ensure /etc/nginx/conf.d exists
+  file:
+    path: /etc/nginx/conf.d
+    state: directory
   become: true

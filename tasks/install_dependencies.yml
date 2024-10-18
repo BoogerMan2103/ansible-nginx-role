@@ -8,8 +8,9 @@
       - make
       - curl
       - git
-      - libssl-dev
-      - libpcre2-dev
-      - zlib1g-dev
+      - pkgconf
+      # - libssl-dev
+      # - libpcre2-dev
+      # - zlib1g-dev
     state: present
   become: true

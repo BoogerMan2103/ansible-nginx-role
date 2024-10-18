@@ -4,3 +4,7 @@
     name: nginx
     state: restarted
   become: true
+
+- name: Check config
+  shell: |
+    nginx -t

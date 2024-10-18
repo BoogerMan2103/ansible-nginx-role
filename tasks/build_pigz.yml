@@ -1,13 +1,7 @@
 # tasks/build_pigz.yml
-- name: Download Pigz source
-  get_url:
-    url: "https://zlib.net/pigz/pigz.tar.gz"
-    dest: "{{ src_dir }}/pigz.tar.gz"
-  become: true
-
 - name: Extract Pigz source
   unarchive:
-    src: "{{ src_dir }}/pigz.tar.gz"
+    src: "https://zlib.net/pigz/pigz.tar.gz"
     dest: "{{ src_dir }}"
     remote_src: yes
   become: true
@@ -23,6 +17,7 @@
     src: "{{ src_dir }}/pigz/pigz"
     dest: /usr/local/bin/pigz
     mode: '0755'
+    remote_src: yes
   become: true
 
 - name: Create symlink for unpigz

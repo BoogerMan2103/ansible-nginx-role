@@ -1,13 +1,7 @@
 # tasks/build_openssl.yml
-- name: Download OpenSSL source
-  get_url:
-    url: "https://www.openssl.org/source/{{ openssl_version }}.tar.gz"
-    dest: "{{ src_dir }}/{{ openssl_version }}.tar.gz"
-  become: true
-
-- name: Extract OpenSSL source
+- name: Download and extract OpenSSL source
   unarchive:
-    src: "{{ src_dir }}/{{ openssl_version }}.tar.gz"
+    src: "https://www.openssl.org/source/{{ openssl_version }}.tar.gz"
     dest: "{{ src_dir }}"
     remote_src: yes
   become: true
