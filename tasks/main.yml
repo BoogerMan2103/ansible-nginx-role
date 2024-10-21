@@ -1,11 +1,16 @@
-# tasks/main.yml
-- include_tasks: install_dependencies.yml
-- include_tasks: build_pcre2.yml
-- include_tasks: build_zlib.yml
-- include_tasks: build_openssl.yml
-- include_tasks: build_pigz.yml
-- include_tasks: clone_nginx_module_vts.yml
-- include_tasks: build_nginx.yml
+- block:
+    - include_tasks: install_dependencies.yml
+    - include_tasks: build_pcre2.yml
+    - include_tasks: build_zlib.yml
+    - include_tasks: build_openssl.yml
+    - include_tasks: build_pigz.yml
+    - include_tasks: clone_nginx_module_vts.yml
+    - include_tasks: build_nginx.yml
+    - include_tasks: configure_logrotate.yml
+
 - include_tasks: configure_nginx.yml
-- include_tasks: configure_logrotate.yml
+  tags:
+    - configure
 - include_tasks: cleanup.yml
+  tags:
+    - cleanup

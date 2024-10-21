@@ -12,4 +12,4 @@
     - nginx-module-vts
   become: true
   tags:
-    - clean
+    - cleanup
