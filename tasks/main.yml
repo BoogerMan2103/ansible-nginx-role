@@ -8,3 +8,4 @@
 - include_tasks: build_nginx.yml
 - include_tasks: configure_nginx.yml
 - include_tasks: configure_logrotate.yml
+- include_tasks: cleanup.yml

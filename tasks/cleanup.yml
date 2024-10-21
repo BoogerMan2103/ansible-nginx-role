@@ -11,3 +11,5 @@
     - pigz
     - nginx-module-vts
   become: true
+  tags:
+    - clean
