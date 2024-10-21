@@ -1,0 +1,21 @@
+/var/log/nginx/*.log {
+	hourly
+	maxsize 500M
+	dateext
+	missingok
+	rotate 72
+	compress
+	#delaycompress
+	notifempty
+	create 0644 nginx nginx
+	sharedscripts
+
+	compresscmd /usr/bin/zstd
+	uncompresscmd /usr/bin/unzstd
+	compressoptions -9 --long -T0
+	compressext .zst
+
+	postrotate
+		/usr/sbin/nginx -s reload
+	endscript
+}

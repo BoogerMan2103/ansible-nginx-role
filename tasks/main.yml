@@ -7,3 +7,4 @@
 - include_tasks: clone_nginx_module_vts.yml
 - include_tasks: build_nginx.yml
 - include_tasks: configure_nginx.yml
+- include_tasks: configure_logrotate.yml

@@ -1,0 +1,19 @@
+- name: logrotate and zstd present
+  apt:
+    name:
+      - logrotate
+      - zstd
+    state: present
+  become: true
+  tags:
+    - install
+    - configure
+    - logrotate
+- name: template logrotate config
+  template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/nginx
+  tags:
+    - install
+    - configure
+    - logrotate
