@@ -42,6 +42,8 @@
       --with-pcre="{{ src_dir }}/{{ pcre2_version }}" \
       --with-zlib="{{ src_dir }}/{{ zlib_version }}" \
       --add-module="{{ src_dir }}/nginx-module-vts" \
+      --with-http_dav_module \
+      --add-module="{{ src_dir }}/nginx-dav-ext-module" \
       --with-openssl-opt="no-weak-ssl-ciphers no-ssl3 no-shared {{ ec_flag | default('') }} -DOPENSSL_NO_HEARTBEATS -fstack-protector-strong" \
       --with-openssl="{{ src_dir }}/{{ openssl_version }}" \
       --sbin-path=/usr/sbin/nginx \

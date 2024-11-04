@@ -1,7 +1,0 @@
-# tasks/clone_nginx_module_vts.yml
-- name: Clone nginx-module-vts repository
-  git:
-    repo: "https://github.com/vozlt/nginx-module-vts"
-    dest: "{{ src_dir }}/nginx-module-vts"
-    depth: 1
-  become: true
