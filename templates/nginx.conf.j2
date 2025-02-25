@@ -72,13 +72,13 @@ http {
 		'"time_local":"$time_local",'
 		'"remote_addr":"$remote_addr",'
 		'"remote_user":"$remote_user",'
+		'"http_scheme":"$scheme"'
+		'"http_host":"$http_host",'
 		'"request":"$request",'
 		'"status": "$status",'
 		'"body_bytes_sent":"$body_bytes_sent",'
 		'"http_referer":"$http_referer",'
 		'"http_user_agent":"$http_user_agent",'
-		'"http_host":"$http_host",'
-		'"http_scheme":"$scheme"'
 	'}';
 
 	access_log	/var/log/nginx/access.log json_log;
