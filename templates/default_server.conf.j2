@@ -4,11 +4,7 @@ server {
 
 	server_name _;
 	root /var/www/html;
-	location = / {
-		return 404;
-	}
 	location ^~ /.well-known/ {
-		root /var/www/html/.well-known/;
 		allow all;
 	}
 	location / {
